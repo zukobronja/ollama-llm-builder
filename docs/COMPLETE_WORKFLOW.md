@@ -2,7 +2,7 @@
 
 This document provides the complete, tested workflow for converting HuggingFace models to Ollama.
 
-## ✅ Successfully Tested
+## Successfully Tested
 
 - **Model**: SmolVLM2-2.2B-Instruct
 - **Hardware**: Intel i9-13900HX, NVIDIA RTX 4070 8GB VRAM, 64GB RAM
@@ -97,7 +97,7 @@ python scripts/conversion/convert_to_gguf.py \
 | SmolVLM2-2.2B-Instruct-F16.gguf | 3.4 GB | Best | ~6 GB | Reference |
 | SmolVLM2-2.2B-Instruct-Q8_0.gguf | 1.8 GB | Very High | ~4 GB | High quality |
 | SmolVLM2-2.2B-Instruct-Q5_K_M.gguf | 1.3 GB | Good | ~3 GB | Balanced |
-| SmolVLM2-2.2B-Instruct-Q4_K_M.gguf | 1.1 GB | Good | ~2.8 GB | **8GB VRAM** ✅ |
+| SmolVLM2-2.2B-Instruct-Q4_K_M.gguf | 1.1 GB | Good | ~2.8 GB | **8GB VRAM** |
 
 **Time:**
 - FP16 conversion: ~15 seconds

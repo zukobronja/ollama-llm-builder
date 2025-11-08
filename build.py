@@ -185,7 +185,7 @@ def check_compatibility(config: ConfigManager, model_id: str, profile_name: str 
         base_size = 2.0
         min_vram = 4
         min_ram = 16
-        print("⚠ Model not in recommended list, using default estimates")
+        print("WARNING: Model not in recommended list, using default estimates")
 
     print(f"Model: {model_id}")
     print(f"Profile: {profile_name} - {profile.get('description')}")
@@ -209,14 +209,14 @@ def check_compatibility(config: ConfigManager, model_id: str, profile_name: str 
         warnings.append(f"VRAM constraint: {min_vram}GB minimum, {available_vram}GB available")
 
     if compatible:
-        print("✓ COMPATIBLE")
+        print("COMPATIBLE")
     else:
-        print("✗ NOT COMPATIBLE")
+        print("NOT COMPATIBLE")
 
     if warnings:
         print("\nWarnings:")
         for warning in warnings:
-            print(f"  ⚠  {warning}")
+            print(f"  WARNING: {warning}")
 
     print("\nRecommended Quantization Levels:")
     for quant in profile.get('recommended_quantization', ['Q4_K_M']):

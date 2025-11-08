@@ -173,7 +173,7 @@ Examples:
     # Extract quantization from filename for tag suggestion
     quant = args.gguf.stem.split('-')[-1].lower()
 
-    print(f"\n✓ Modelfile created: {modelfile}")
+    print(f"\nModelfile created: {modelfile}")
     print(f"\nNext steps:")
     print(f"  1. Create Ollama model with tag (recommended):")
     print(f"     ollama create smolvlm2:{quant} -f {modelfile}")

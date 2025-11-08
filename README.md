@@ -41,9 +41,9 @@ See **[docs/COMPLETE_WORKFLOW.md](docs/COMPLETE_WORKFLOW.md)** for the full test
 
 ## Models
 
-### SmolVLM2-2.2B-Instruct ✅ **WORKING**
+### SmolVLM2-2.2B-Instruct - WORKING
 - **Type**: Vision-Language Model
-- **Status**: ✅ Successfully deployed to Ollama
+- **Status**: Successfully deployed to Ollama
 - **HuggingFace**: [SmolVLM2-2.2B-Instruct](https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct)
 - **Size**: 3.4GB (FP16), 1.1GB (Q4_K_M recommended)
 - **VRAM**: ~2.8GB (Q4_K_M on RTX 4070)
@@ -77,7 +77,7 @@ Configure your hardware in `config/build_config.yaml`.
 
 ## Documentation
 
-- **[docs/COMPLETE_WORKFLOW.md](docs/COMPLETE_WORKFLOW.md)** - ⭐ **Complete tested workflow** (START HERE)
+- **[docs/COMPLETE_WORKFLOW.md](docs/COMPLETE_WORKFLOW.md)** - **Complete tested workflow** (START HERE)
 - **[docs/OLLAMA_TAGS.md](docs/OLLAMA_TAGS.md)** - How to use Ollama tags for multiple versions
 - **[docs/SETUP.md](docs/SETUP.md)** - Installation and setup guide
 - **[docs/GGUF_CONVERSION.md](docs/GGUF_CONVERSION.md)** - GGUF conversion educational guide
@@ -132,17 +132,17 @@ python build.py --model HuggingFaceTB/SmolVLM2-2.2B-Instruct --quantization Q5_K
 
 ## Status
 
-**✅ COMPLETE - Successfully Deployed SmolVLM2 to Ollama!**
+**COMPLETE - Successfully Deployed SmolVLM2 to Ollama!**
 
-- ✅ Project structure created
-- ✅ Configuration system implemented
-- ✅ Hardware profiles defined (4 profiles: laptop, workstation, server, CPU-only)
-- ✅ Build orchestrator created
-- ✅ Model download scripts (HuggingFace integration)
-- ✅ GGUF conversion pipeline (FP16 + quantization)
-- ✅ Modelfile generation (hardware-optimized)
-- ✅ Successfully deployed to Ollama
-- ✅ Complete workflow documented
+- Project structure created
+- Configuration system implemented
+- Hardware profiles defined (4 profiles: laptop, workstation, server, CPU-only)
+- Build orchestrator created
+- Model download scripts (HuggingFace integration)
+- GGUF conversion pipeline (FP16 + quantization)
+- Modelfile generation (hardware-optimized)
+- Successfully deployed to Ollama
+- Complete workflow documented
 
 **Tested Models:**
-- SmolVLM2-2.2B-Instruct ✅ (4 quantizations: F16, Q8_0, Q5_K_M, Q4_K_M)
+- SmolVLM2-2.2B-Instruct (4 quantizations: F16, Q8_0, Q5_K_M, Q4_K_M)

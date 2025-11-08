@@ -157,7 +157,7 @@ end
 echo "Setting smolvlm2:latest to Q4_K_M"
 ollama create smolvlm2:latest -f modelfiles/SmolVLM2-Q4_K_M.modelfile
 
-echo "✓ All models deployed!"
+echo "All models deployed!"
 ollama list | grep smolvlm2
 ```
 
@@ -234,8 +234,8 @@ ollama run smolvlm2:q8_0 "$PROMPT"
 
 ## Summary
 
-- ✅ Use tags to keep multiple versions
-- ✅ Tag format: `model:tag`
-- ✅ Set a default with `latest`
-- ✅ Easy to compare and switch
-- ✅ Saves time and disk space
+- Use tags to keep multiple versions
+- Tag format: `model:tag`
+- Set a default with `latest`
+- Easy to compare and switch
+- Saves time and disk space

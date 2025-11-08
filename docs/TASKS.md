@@ -6,7 +6,7 @@ Implement and host SmolVLM2 (Vision-Language Model) on Ollama for local inferenc
 ## Target Hardware
 - **CPU**: Intel i9-13900HX
 - **RAM**: 64 GB
-- **GPU**: NVIDIA RTX 4070 (8GB VRAM) ⚠️ Primary constraint
+- **GPU**: NVIDIA RTX 4070 (8GB VRAM) - Primary constraint
 - **Storage**: 2 x 2TB SSD
 
 ## Hardware Optimization Strategy

@@ -125,7 +125,7 @@ class GGUFConverter:
             size_gb = output_file.stat().st_size / (1024**3)
             logger.info("")
             logger.info("="*70)
-            logger.info("✓ FP16 conversion complete!")
+            logger.info("FP16 conversion complete!")
             logger.info(f"Output file: {output_file}")
             logger.info(f"Size: {size_gb:.2f} GB")
             logger.info("="*70)
@@ -238,7 +238,7 @@ class GGUFConverter:
 
             logger.info("")
             logger.info("="*70)
-            logger.info(f"✓ Quantization to {quant_type} complete!")
+            logger.info(f"Quantization to {quant_type} complete!")
             logger.info(f"Output file: {output_file}")
             logger.info(f"Original size: {input_size:.2f} GB")
             logger.info(f"Quantized size: {output_size:.2f} GB")

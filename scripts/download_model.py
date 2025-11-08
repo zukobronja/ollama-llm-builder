@@ -108,7 +108,7 @@ class ModelDownloader:
                 ]
             )
 
-            logger.info(f"✓ Model downloaded successfully to {model_dir}")
+            logger.info(f"Model downloaded successfully to {model_dir}")
 
             # Log what was downloaded
             self._log_download_info(model_dir)
@@ -193,18 +193,18 @@ class ModelDownloader:
             # Load config
             logger.info("  Loading config...")
             config = AutoConfig.from_pretrained(model_dir)
-            logger.info(f"  ✓ Config loaded: {config.model_type}")
+            logger.info(f"  Config loaded: {config.model_type}")
 
             # Load tokenizer
             logger.info("  Loading tokenizer...")
             tokenizer = AutoTokenizer.from_pretrained(model_dir)
-            logger.info(f"  ✓ Tokenizer loaded: {len(tokenizer)} tokens")
+            logger.info(f"  Tokenizer loaded: {len(tokenizer)} tokens")
 
             # Don't load full model yet (too memory intensive)
             # Just verify the architecture is recognized
             logger.info(f"  Model architecture: {config.architectures}")
 
-            logger.info("✓ Model verification successful")
+            logger.info("Model verification successful")
             return True
 
         except Exception as e:
