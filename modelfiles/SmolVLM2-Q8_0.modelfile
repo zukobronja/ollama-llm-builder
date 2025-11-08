@@ -1,0 +1,33 @@
+# Modelfile for SmolVLM2-2.2B-Instruct
+# Generated for hardware profile: laptop_rtx4070
+# Profile: i9-13900HX with RTX 4070 8GB VRAM
+
+FROM /mnt/data/projects/learning/aiml/my-llms/ollama/SmolVLM2/models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf
+
+# Temperature controls randomness (0.0 = deterministic, 1.0 = creative)
+PARAMETER temperature 0.7
+
+# Top-p sampling (0.9 = use top 90% probability mass)
+PARAMETER top_p 0.9
+
+# Context window size
+PARAMETER num_ctx 4096
+
+# Number of GPU layers (-1 = all layers on GPU)
+PARAMETER num_gpu -1
+
+# Stop tokens
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<end_of_utterance>"
+
+# System prompt
+SYSTEM """You are SmolVLM2, a vision-language AI assistant. You can analyze images and answer questions about them. Be helpful, accurate, and concise."""
+
+# Template for vision-language interaction
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}<|im_start|>user
+{{ if .Prompt }}{{ .Prompt }}{{ end }}{{ if .Image }}<image>{{ .Image }}</image>{{ end }}<|im_end|>
+<|im_start|>assistant
+"""

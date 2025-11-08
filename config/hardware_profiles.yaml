@@ -1,0 +1,145 @@
+# Hardware Profiles Configuration
+# Define different hardware configurations for model optimization
+
+profiles:
+  # Primary laptop configuration
+  laptop_rtx4070:
+    name: "Laptop RTX 4070"
+    description: "i9-13900HX with RTX 4070 8GB VRAM"
+    specs:
+      cpu: "i9-13900HX"
+      ram_gb: 64
+      vram_gb: 8
+      gpu: "NVIDIA RTX 4070"
+    recommended_quantization:
+      - "Q4_K_M"  # Primary: ~2-3GB VRAM
+      - "Q5_K_M"  # Alternative: ~3-4GB VRAM
+    ollama_params:
+      num_gpu_layers: -1  # Auto-detect, will fit in 8GB
+      num_ctx: 4096
+      num_thread: 16
+      num_batch: 512
+    notes: "Optimized for 8GB VRAM constraint. Q4_K_M recommended."
+
+  # Workstation with more VRAM
+  workstation_rtx4090:
+    name: "Workstation RTX 4090"
+    description: "High-end workstation with RTX 4090 24GB VRAM"
+    specs:
+      cpu: "High-end CPU"
+      ram_gb: 128
+      vram_gb: 24
+      gpu: "NVIDIA RTX 4090"
+    recommended_quantization:
+      - "Q8_0"    # Best quality: ~6-8GB VRAM
+      - "Q6_K"    # Good quality: ~4-6GB VRAM
+      - "Q5_K_M"  # Balanced: ~3-4GB VRAM
+    ollama_params:
+      num_gpu_layers: -1  # All layers on GPU
+      num_ctx: 8192       # Larger context
+      num_thread: 32
+      num_batch: 1024
+    notes: "Can handle higher quality quantizations and larger context."
+
+  # Server/Cloud with high resources
+  server_a100:
+    name: "Server A100"
+    description: "Server-grade with A100 40GB/80GB VRAM"
+    specs:
+      cpu: "Server-grade CPU"
+      ram_gb: 256
+      vram_gb: 80
+      gpu: "NVIDIA A100"
+    recommended_quantization:
+      - "F16"     # Full precision: ~12-16GB VRAM
+      - "Q8_0"    # High quality: ~6-8GB VRAM
+    ollama_params:
+      num_gpu_layers: -1
+      num_ctx: 16384      # Very large context
+      num_thread: 64
+      num_batch: 2048
+    notes: "Can run full precision models. Ideal for production."
+
+  # CPU-only fallback
+  cpu_only:
+    name: "CPU Only"
+    description: "CPU-only inference (no GPU)"
+    specs:
+      cpu: "Any modern CPU"
+      ram_gb: 32
+      vram_gb: 0
+      gpu: "None"
+    recommended_quantization:
+      - "Q4_K_M"  # Fast inference on CPU
+      - "Q4_0"    # Faster, slightly lower quality
+    ollama_params:
+      num_gpu_layers: 0   # CPU only
+      num_ctx: 4096
+      num_thread: -1      # Auto-detect CPU threads
+      num_batch: 256
+    notes: "CPU-only mode. Slower but works without GPU."
+
+# Quantization options explained
+quantization_info:
+  F16:
+    description: "16-bit floating point (full precision)"
+    vram_multiplier: 1.0
+    quality: "Highest"
+    speed: "Slowest"
+    use_case: "Maximum quality, research, production with high resources"
+
+  Q8_0:
+    description: "8-bit quantization"
+    vram_multiplier: 0.5
+    quality: "Very High"
+    speed: "Fast"
+    use_case: "Best quality/performance balance for good hardware"
+
+  Q6_K:
+    description: "6-bit quantization with K-quant"
+    vram_multiplier: 0.4
+    quality: "High"
+    speed: "Fast"
+    use_case: "Good quality with moderate VRAM"
+
+  Q5_K_M:
+    description: "5-bit quantization, medium variant"
+    vram_multiplier: 0.35
+    quality: "Good"
+    speed: "Very Fast"
+    use_case: "Balanced option for mid-range GPUs"
+
+  Q4_K_M:
+    description: "4-bit quantization, medium variant (RECOMMENDED for 8GB VRAM)"
+    vram_multiplier: 0.25
+    quality: "Good"
+    speed: "Very Fast"
+    use_case: "Best for VRAM-constrained systems (8GB or less)"
+
+  Q4_0:
+    description: "4-bit quantization, legacy format"
+    vram_multiplier: 0.25
+    quality: "Acceptable"
+    speed: "Fastest"
+    use_case: "Maximum speed, CPU inference"
+
+# Recommended SmolVLM2 models (for reference only)
+# Use the HuggingFace model ID directly when downloading/building
+recommended_models:
+  - model_id: "HuggingFaceTB/SmolVLM2-2.2B-Instruct"
+    description: "2.2B parameter model - best quality"
+    size_gb: 5.0
+    min_vram_gb: 4
+    min_ram_gb: 16
+
+  - model_id: "HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
+    description: "500M parameter model - balanced speed/quality"
+    size_gb: 1.5
+    min_vram_gb: 2
+    min_ram_gb: 8
+
+  - model_id: "HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
+    description: "256M parameter model - fastest, minimal resources"
+    size_gb: 0.8
+    min_vram_gb: 1
+    min_ram_gb: 4

@@ -1,0 +1,40 @@
+# Security check to prevent committing secrets
+# This workflow runs on every push to check for leaked secrets
+
+name: Security Check
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for HuggingFace tokens
+        run: |
+          if grep -r "hf_[a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.md" --include="*.yaml" .; then
+            echo "❌ ERROR: HuggingFace token found in code!"
+            exit 1
+          fi
+          echo "✓ No secrets found"
+
+      - name: Check for .env file
+        run: |
+          if git ls-files | grep -q "^\.env$"; then
+            echo "❌ ERROR: .env file is tracked by git!"
+            exit 1
+          fi
+          echo "✓ .env file is not tracked"
+
+      - name: Verify .gitignore
+        run: |
+          if ! grep -q "^\.env$" .gitignore; then
+            echo "❌ ERROR: .env is not in .gitignore!"
+            exit 1
+          fi
+          echo "✓ .env is in .gitignore"

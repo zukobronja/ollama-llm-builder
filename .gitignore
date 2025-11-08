@@ -1,0 +1,48 @@
+# Model files (too large for git)
+models/
+*.gguf
+*.bin
+*.safetensors
+*.pth
+
+# Cache directories
+cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# llama.cpp repository
+llama.cpp/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+venv/
+env/
+.venv/
+*.egg-info/
+
+# UV
+.uv/
+uv.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+models/
+

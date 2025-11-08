@@ -1,0 +1,81 @@
+# Build Configuration
+# Main configuration for model building and conversion
+
+# Active hardware profile (change this based on your current machine)
+active_profile: "laptop_rtx4070"
+
+# Model to build
+model:
+  name: "smolvlm2_instruct"
+  version: "latest"
+
+# Paths configuration
+paths:
+  models_dir: "./models"
+  source_dir: "./models/source"
+  gguf_dir: "./models/gguf"
+  modelfiles_dir: "./modelfiles"
+  cache_dir: "./cache"
+
+# HuggingFace settings
+huggingface:
+  cache_dir: "./cache/huggingface"
+  use_auth_token: false  # Set to true if using gated models
+  # token: "hf_..."  # Add your HF token here if needed
+
+# Conversion settings
+conversion:
+  # Quantization levels to generate (will create multiple variants)
+  quantization_levels:
+    - "Q4_K_M"  # Always generate this (most compatible)
+    # - "Q5_K_M"  # Uncomment for better quality
+    # - "Q8_0"    # Uncomment for best quality
+
+  # llama.cpp settings
+  llama_cpp:
+    repo_url: "https://github.com/ggerganov/llama.cpp"
+    local_path: "./llama.cpp"
+    auto_clone: true
+    auto_build: true
+
+  # Conversion options
+  options:
+    vocab_type: "bpe"  # or "spm" for SentencePiece
+    context_length: 4096
+    rope_scaling: null
+
+# Ollama settings
+ollama:
+  # Auto-generate Modelfile from profile
+  auto_generate_modelfile: true
+
+  # Base template (will be customized per model)
+  template: |
+    {{- if .System }}System: {{ .System }}
+    {{ end }}
+    {{- if .Image }}<image>{{ .Image }}</image>
+    {{ end }}User: {{ .Prompt }}
+    Assistant:
+
+  # System prompt
+  system_prompt: "You are SmolVLM2, a vision-language AI assistant that can analyze images and answer questions about them."
+
+# Build options
+build:
+  # Skip download if model already exists
+  skip_if_exists: true
+
+  # Verify model after conversion
+  verify_conversion: true
+
+  # Run basic tests after build
+  run_tests: true
+
+  # Cleanup intermediate files after successful build
+  cleanup_intermediate: false  # Set to true to save disk space
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "./logs/build.log"
+  console_output: true
