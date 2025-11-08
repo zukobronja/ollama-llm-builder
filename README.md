@@ -81,7 +81,6 @@ Configure your hardware in `config/build_config.yaml`.
 - **[docs/OLLAMA_TAGS.md](docs/OLLAMA_TAGS.md)** - How to use Ollama tags for multiple versions
 - **[docs/SETUP.md](docs/SETUP.md)** - Installation and setup guide
 - **[docs/GGUF_CONVERSION.md](docs/GGUF_CONVERSION.md)** - GGUF conversion educational guide
-- **[docs/TASKS.md](docs/TASKS.md)** - Implementation tasks and planning
 
 ## Project Structure
 
