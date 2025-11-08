@@ -24,6 +24,9 @@ logs/
 *.swp
 *.swo
 
+CLAUDE.md
+docs/TASKS.md
+
 # Environment
 .env
 venv/
