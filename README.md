@@ -41,7 +41,7 @@ See **[docs/COMPLETE_WORKFLOW.md](docs/COMPLETE_WORKFLOW.md)** for the full test
 
 ## Models
 
-### SmolVLM2-2.2B-Instruct - WORKING
+### SmolVLM2-2.2B-Instruct
 - **Type**: Vision-Language Model
 - **Status**: Successfully deployed to Ollama
 - **HuggingFace**: [SmolVLM2-2.2B-Instruct](https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct)
@@ -127,20 +127,6 @@ python build.py --model HuggingFaceTB/SmolVLM2-500M-Video-Instruct --profile wor
 # Build with custom quantization
 python build.py --model HuggingFaceTB/SmolVLM2-2.2B-Instruct --quantization Q5_K_M,Q8_0
 ```
-
-## Status
-
-**COMPLETE - Successfully Deployed SmolVLM2 to Ollama!**
-
-- Project structure created
-- Configuration system implemented
-- Hardware profiles defined (4 profiles: laptop, workstation, server, CPU-only)
-- Build orchestrator created
-- Model download scripts (HuggingFace integration)
-- GGUF conversion pipeline (FP16 + quantization)
-- Modelfile generation (hardware-optimized)
-- Successfully deployed to Ollama
-- Complete workflow documented
 
 **Tested Models:**
 - SmolVLM2-2.2B-Instruct (4 quantizations: F16, Q8_0, Q5_K_M, Q4_K_M)
