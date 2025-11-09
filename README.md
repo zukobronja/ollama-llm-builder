@@ -24,15 +24,15 @@ python scripts/download_model.py HuggingFaceTB/SmolVLM2-2.2B-Instruct
 set -x LD_LIBRARY_PATH /usr/local/lib/ollama/cuda_v12:$LD_LIBRARY_PATH
 
 python scripts/conversion/convert_to_gguf.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --source models/source/SmolVLM2-2.2B-Instruct \
-  --quantize Q4_K_M \
-  --llama-cpp /path/to/llama.cpp
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --source models/source/SmolVLM2-2.2B-Instruct \
+ --quantize Q4_K_M \
+ --llama-cpp /path/to/llama.cpp
 
 # 4. Generate Modelfile and deploy
 python scripts/generate_modelfile.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf
 
 ollama create smolvlm2 -f modelfiles/SmolVLM2-Q4_K_M.modelfile
 ```
@@ -43,11 +43,24 @@ See **[docs/COMPLETE_WORKFLOW.md](docs/COMPLETE_WORKFLOW.md)** for the full test
 
 ### SmolVLM2-2.2B-Instruct
 - **Type**: Vision-Language Model
-- **Status**: Successfully deployed to Ollama
+- **Status**: **Deployed but Vision Recognition Broken** (See [VISION ISSUES](docs/SMOLVLM2_VISION_ISSUES.md))
 - **HuggingFace**: [SmolVLM2-2.2B-Instruct](https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct)
-- **Size**: 3.4GB (FP16), 1.1GB (Q4_K_M recommended)
+- **Size**: 3.4GB (FP16), 1.1GB (Q4_K_M)
 - **VRAM**: ~2.8GB (Q4_K_M on RTX 4070)
 - **Quantizations Available**: F16, Q8_0, Q5_K_M, Q4_K_M
+
+**IMPORTANT**: Vision recognition is severely degraded in Ollama due to:
+1. Missing multimodal projector (mmproj) file
+2. Quantization destroying vision encoder quality
+3. Ollama lacking official SmolVLM2 support ([#9559](https://github.com/ollama/ollama/issues/9559))
+
+**RECOMMENDED**: Use the HuggingFace Transformers library directly instead for vision tasks:
+- Excellent vision quality (bfloat16, no quantization)
+- Video support (multiple frames)
+- Fits in 8GB VRAM (~6GB actual usage)
+- Native PyTorch integration
+
+See [docs/SMOLVLM2_VISION_ISSUES.md](docs/SMOLVLM2_VISION_ISSUES.md) for technical details and solutions.
 
 **Quick Test:**
 ```fish
@@ -86,16 +99,16 @@ Configure your hardware in `config/build_config.yaml`.
 
 ```
 ollama-llm-builder/
-├── config/                # Hardware profiles and build configuration
-├── docs/                  # Documentation
-├── models/                # Downloaded/converted models
-├── modelfiles/            # Ollama Modelfiles
-├── scripts/               # Python scripts
-│   ├── conversion/        # Model conversion scripts
-│   └── utils/             # Utility scripts
-├── tests/                 # Test scripts
-├── build.py              # Main build orchestrator
-└── pyproject.toml        # Project configuration
+├── config/    # Hardware profiles and build configuration
+├── docs/     # Documentation
+├── models/    # Downloaded/converted models
+├── modelfiles/   # Ollama Modelfiles
+├── scripts/    # Python scripts
+│ ├── conversion/  # Model conversion scripts
+│ └── utils/    # Utility scripts
+├── tests/     # Test scripts
+├── build.py    # Main build orchestrator
+└── pyproject.toml  # Project configuration
 ```
 
 ## Features

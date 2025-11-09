@@ -55,9 +55,9 @@ If you prefer using pip:
 python -m venv venv
 
 # Activate
-source venv/bin/activate  # Linux/macOS
+source venv/bin/activate # Linux/macOS
 # or
-venv\Scripts\activate  # Windows
+venv\Scripts\activate # Windows
 
 # Install from pyproject.toml
 pip install -e .
@@ -159,39 +159,39 @@ After setup, your directory should look like:
 
 ```
 SmolVLM2/
-├── .venv/                 # Virtual environment (created by uv)
-├── config/                # Configuration files
-│   ├── hardware_profiles.yaml
-│   └── build_config.yaml
-├── docs/                  # Documentation
-├── models/                # Downloaded/converted models (created during build)
-├── modelfiles/            # Ollama Modelfiles (created during build)
-├── scripts/               # Python scripts
-│   ├── conversion/
-│   └── utils/
-├── tests/                 # Test scripts
-├── build.py              # Main build script
-├── pyproject.toml        # Project configuration
-└── requirements.txt      # Legacy requirements file
+├── .venv/     # Virtual environment (created by uv)
+├── config/    # Configuration files
+│ ├── hardware_profiles.yaml
+│ └── build_config.yaml
+├── docs/     # Documentation
+├── models/    # Downloaded/converted models (created during build)
+├── modelfiles/   # Ollama Modelfiles (created during build)
+├── scripts/    # Python scripts
+│ ├── conversion/
+│ └── utils/
+├── tests/     # Test scripts
+├── build.py    # Main build script
+├── pyproject.toml  # Project configuration
+└── requirements.txt  # Legacy requirements file
 ```
 
 ## Next Steps
 
 1. **Test Configuration**:
-   ```bash
-   python build.py --list-profiles
-   python build.py --check-compatibility --model smolvlm2_instruct
-   ```
+ ```bash
+ python build.py --list-profiles
+ python build.py --check-compatibility --model smolvlm2_instruct
+ ```
 
 2. **Review Implementation Tasks**:
-   ```bash
-   cat docs/TASKS.md
-   ```
+ ```bash
+ cat docs/TASKS.md
+ ```
 
 3. **Start Building** (when scripts are implemented):
-   ```bash
-   python build.py --model smolvlm2_instruct
-   ```
+ ```bash
+ python build.py --model smolvlm2_instruct
+ ```
 
 ## Troubleshooting
 
@@ -200,7 +200,7 @@ SmolVLM2/
 Make sure UV is in your PATH:
 
 ```bash
-export PATH="$HOME/.cargo/bin:$PATH"  # Linux/macOS
+export PATH="$HOME/.cargo/bin:$PATH" # Linux/macOS
 ```
 
 ### Import Errors

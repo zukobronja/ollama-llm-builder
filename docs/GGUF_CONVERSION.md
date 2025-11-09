@@ -13,11 +13,11 @@
 
 ```
 HuggingFace Model (PyTorch/SafeTensors)
-    ↓
+ ↓
 [Step 1] Convert to GGUF (FP16)
-    ↓
+ ↓
 [Step 2] Quantize to smaller formats (Q4, Q5, Q8)
-    ↓
+ ↓
 GGUF Model ready for Ollama
 ```
 
@@ -29,9 +29,9 @@ llama.cpp provides `convert_hf_to_gguf.py`:
 
 ```bash
 python llama.cpp/convert_hf_to_gguf.py \
-  models/source/ModelName \
-  --outtype f16 \
-  --outfile models/gguf/ModelName-F16.gguf
+ models/source/ModelName \
+ --outtype f16 \
+ --outfile models/gguf/ModelName-F16.gguf
 ```
 
 **Parameters:**
@@ -50,9 +50,9 @@ The conversion process:
 ```bash
 # Check if your llama.cpp version supports SmolVLM2
 python llama.cpp/convert_hf_to_gguf.py \
-  models/source/SmolVLM2-2.2B-Instruct \
-  --outtype f16 \
-  --outfile models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf
+ models/source/SmolVLM2-2.2B-Instruct \
+ --outtype f16 \
+ --outfile models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf
 ```
 
 **Important:** Not all vision architectures are supported yet. SmolVLM2 support was added in llama.cpp in April 2025.
@@ -63,12 +63,12 @@ Quantization reduces model size by lowering precision:
 
 | Format | Precision | Size | Quality | Use Case |
 |--------|-----------|------|---------|----------|
-| F16    | 16-bit    | 100% | Best    | Reference/Baseline |
-| Q8_0   | 8-bit     | 50%  | Very High | High-end GPUs |
-| Q6_K   | 6-bit     | 40%  | High    | Good balance |
-| Q5_K_M | 5-bit     | 35%  | Good    | Recommended |
-| Q4_K_M | 4-bit     | 25%  | Good    | 8GB VRAM (your RTX 4070) |
-| Q4_0   | 4-bit     | 25%  | Acceptable | CPU-only |
+| F16 | 16-bit | 100% | Best | Reference/Baseline |
+| Q8_0 | 8-bit  | 50% | Very High | High-end GPUs |
+| Q6_K | 6-bit  | 40% | High | Good balance |
+| Q5_K_M | 5-bit  | 35% | Good | Recommended |
+| Q4_K_M | 4-bit  | 25% | Good | 8GB VRAM (your RTX 4070) |
+| Q4_0 | 4-bit  | 25% | Acceptable | CPU-only |
 
 ### How to Quantize
 
@@ -79,11 +79,11 @@ Quantization reduces model size by lowering precision:
 set -x LD_LIBRARY_PATH /usr/local/lib/ollama/cuda_v12:$LD_LIBRARY_PATH
 
 python scripts/conversion/convert_to_gguf.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --source models/source/SmolVLM2-2.2B-Instruct \
-  --quantize Q4_K_M,Q5_K_M,Q8_0 \
-  --llama-cpp /path/to/llama.cpp \
-  --verbose
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --source models/source/SmolVLM2-2.2B-Instruct \
+ --quantize Q4_K_M,Q5_K_M,Q8_0 \
+ --llama-cpp /path/to/llama.cpp \
+ --verbose
 ```
 
 ```bash
@@ -91,11 +91,11 @@ python scripts/conversion/convert_to_gguf.py \
 export LD_LIBRARY_PATH=/usr/local/lib/ollama/cuda_v12:$LD_LIBRARY_PATH
 
 python scripts/conversion/convert_to_gguf.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --source models/source/SmolVLM2-2.2B-Instruct \
-  --quantize Q4_K_M,Q5_K_M,Q8_0 \
-  --llama-cpp /path/to/llama.cpp \
-  --verbose
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --source models/source/SmolVLM2-2.2B-Instruct \
+ --quantize Q4_K_M,Q5_K_M,Q8_0 \
+ --llama-cpp /path/to/llama.cpp \
+ --verbose
 ```
 
 **Manual quantization with llama-quantize:**
@@ -103,21 +103,21 @@ python scripts/conversion/convert_to_gguf.py \
 ```bash
 # Quantize to Q4_K_M (recommended for 8GB VRAM)
 llama.cpp/llama-quantize \
-  models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
-  models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
-  Q4_K_M
+ models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
+ models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
+ Q4_K_M
 
 # Quantize to Q5_K_M (better quality, more VRAM)
 llama.cpp/llama-quantize \
-  models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
-  models/gguf/SmolVLM2-2.2B-Instruct-Q5_K_M.gguf \
-  Q5_K_M
+ models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
+ models/gguf/SmolVLM2-2.2B-Instruct-Q5_K_M.gguf \
+ Q5_K_M
 
 # Quantize to Q8_0 (best quality)
 llama.cpp/llama-quantize \
-  models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
-  models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf \
-  Q8_0
+ models/gguf/SmolVLM2-2.2B-Instruct-F16.gguf \
+ models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf \
+ Q8_0
 ```
 
 ## Step 3: Use with Ollama
@@ -150,29 +150,29 @@ ollama run smolvlm2
 ### K-quants (Recommended)
 
 - **Q4_K_M**: 4-bit with medium quality k-quant
-  - Best for VRAM-constrained systems (8GB)
-  - ~25% of original size
-  - Minimal quality loss
+ - Best for VRAM-constrained systems (8GB)
+ - ~25% of original size
+ - Minimal quality loss
 
 - **Q5_K_M**: 5-bit with medium quality k-quant
-  - Better quality than Q4
-  - ~35% of original size
-  - Good balance
+ - Better quality than Q4
+ - ~35% of original size
+ - Good balance
 
 - **Q6_K**: 6-bit k-quant
-  - Very high quality
-  - ~40% of original size
-  - For systems with more VRAM
+ - Very high quality
+ - ~40% of original size
+ - For systems with more VRAM
 
 ### Legacy Quants
 
 - **Q4_0**: Original 4-bit quantization
-  - Fastest CPU inference
-  - Lower quality than Q4_K_M
+ - Fastest CPU inference
+ - Lower quality than Q4_K_M
 
 - **Q8_0**: 8-bit quantization
-  - Near-original quality
-  - ~50% size reduction
+ - Near-original quality
+ - ~50% size reduction
 
 ## Important: CUDA Library Path
 
@@ -256,8 +256,8 @@ find /usr -name "libcudart.so.12" 2>/dev/null
 ```bash
 # Use llama.cpp tools to inspect GGUF
 llama.cpp/llama-cli \
-  --model models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
-  --help
+ --model models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
+ --help
 
 # Check file size
 ls -lh models/gguf/*.gguf

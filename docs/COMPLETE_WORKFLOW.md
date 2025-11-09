@@ -2,11 +2,27 @@
 
 This document provides the complete, tested workflow for converting HuggingFace models to Ollama.
 
-## Successfully Tested
+---
+
+## CRITICAL: Vision Quality Issue
+
+**The Ollama-deployed SmolVLM2 has broken vision recognition due to:**
+1. Missing multimodal projector (mmproj) file
+2. Quantization severely degrading vision encoder
+3. Lack of official Ollama support ([#9559](https://github.com/ollama/ollama/issues/9559))
+
+**For vision tasks, use HuggingFace Transformers directly** (torch.bfloat16, no quantization).
+
+See [SMOLVLM2_VISION_ISSUES.md](SMOLVLM2_VISION_ISSUES.md) for complete analysis and solutions.
+
+---
+
+## Successfully Tested (Text Generation)
 
 - **Model**: SmolVLM2-2.2B-Instruct
 - **Hardware**: Intel i9-13900HX, NVIDIA RTX 4070 8GB VRAM, 64GB RAM
 - **Date**: November 2025
+- **Note**: Vision quality degraded - use HuggingFace for image/video tasks
 
 ---
 
@@ -83,11 +99,11 @@ find /usr -name "libcudart.so.12" 2>/dev/null
 **Command:**
 ```fish
 python scripts/conversion/convert_to_gguf.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --source models/source/SmolVLM2-2.2B-Instruct \
-  --quantize Q4_K_M,Q5_K_M,Q8_0 \
-  --llama-cpp /mnt/data/projects/tools/llama.cpp \
-  --verbose
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --source models/source/SmolVLM2-2.2B-Instruct \
+ --quantize Q4_K_M,Q5_K_M,Q8_0 \
+ --llama-cpp /mnt/data/projects/tools/llama.cpp \
+ --verbose
 ```
 
 **Output:**
@@ -110,9 +126,9 @@ python scripts/conversion/convert_to_gguf.py \
 **Command:**
 ```fish
 python scripts/generate_modelfile.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
-  --verbose
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
+ --verbose
 ```
 
 **Output:**
@@ -155,11 +171,11 @@ ollama list
 
 You should see:
 ```
-NAME                ID              SIZE      MODIFIED
-smolvlm2:q4_k_m     abc123          1.1 GB    X minutes ago
-smolvlm2:q5_k_m     def456          1.3 GB    X minutes ago
-smolvlm2:q8_0       ghi789          1.8 GB    X minutes ago
-smolvlm2:f16        jkl012          3.4 GB    X minutes ago
+NAME    ID    SIZE  MODIFIED
+smolvlm2:q4_k_m  abc123   1.1 GB X minutes ago
+smolvlm2:q5_k_m  def456   1.3 GB X minutes ago
+smolvlm2:q8_0  ghi789   1.8 GB X minutes ago
+smolvlm2:f16  jkl012   3.4 GB X minutes ago
 ```
 
 **Set a default (optional):**
@@ -214,24 +230,24 @@ set -x LD_LIBRARY_PATH /usr/local/lib/ollama/cuda_v12:$LD_LIBRARY_PATH
 
 # 3. Convert and quantize (creates all 4 versions)
 python scripts/conversion/convert_to_gguf.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --source models/source/SmolVLM2-2.2B-Instruct \
-  --quantize Q4_K_M,Q5_K_M,Q8_0 \
-  --llama-cpp /mnt/data/projects/tools/llama.cpp \
-  --verbose
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --source models/source/SmolVLM2-2.2B-Instruct \
+ --quantize Q4_K_M,Q5_K_M,Q8_0 \
+ --llama-cpp /mnt/data/projects/tools/llama.cpp \
+ --verbose
 
 # 4. Generate Modelfiles for each quantization
 python scripts/generate_modelfile.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf
 
 python scripts/generate_modelfile.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q5_K_M.gguf
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q5_K_M.gguf
 
 python scripts/generate_modelfile.py \
-  --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf
+ --model-id HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf
 
 # 5. Deploy all to Ollama with different tags
 ollama create smolvlm2:q4_k_m -f modelfiles/SmolVLM2-Q4_K_M.modelfile
@@ -254,15 +270,15 @@ ollama run smolvlm2:q8_0 "Hello, who are you?"
 ```
 SmolVLM2/
 ├── models/
-│   ├── source/
-│   │   └── SmolVLM2-2.2B-Instruct/     # Downloaded model (8.37 GB)
-│   └── gguf/
-│       ├── SmolVLM2-2.2B-Instruct-F16.gguf      # 3.4 GB
-│       ├── SmolVLM2-2.2B-Instruct-Q4_K_M.gguf   # 1.1 GB
-│       ├── SmolVLM2-2.2B-Instruct-Q5_K_M.gguf   # 1.3 GB
-│       └── SmolVLM2-2.2B-Instruct-Q8_0.gguf     # 1.8 GB
+│ ├── source/
+│ │ └── SmolVLM2-2.2B-Instruct/  # Downloaded model (8.37 GB)
+│ └── gguf/
+│  ├── SmolVLM2-2.2B-Instruct-F16.gguf  # 3.4 GB
+│  ├── SmolVLM2-2.2B-Instruct-Q4_K_M.gguf # 1.1 GB
+│  ├── SmolVLM2-2.2B-Instruct-Q5_K_M.gguf # 1.3 GB
+│  └── SmolVLM2-2.2B-Instruct-Q8_0.gguf  # 1.8 GB
 └── modelfiles/
-    └── SmolVLM2-Q4_K_M.modelfile       # Ollama configuration
+ └── SmolVLM2-Q4_K_M.modelfile  # Ollama configuration
 ```
 
 **Total disk space used:** ~15 GB (source + all quantizations)
@@ -325,7 +341,7 @@ Specify the path explicitly:
 
 **Solution:**
 ```fish
-uv sync  # Reinstall dependencies
+uv sync # Reinstall dependencies
 ```
 
 ### Issue: Model conversion fails
@@ -379,13 +395,13 @@ python scripts/download_model.py HuggingFaceTB/SmolVLM2-256M-Video-Instruct
 ```fish
 # For workstation
 python scripts/generate_modelfile.py \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf \
-  --profile workstation_rtx4090
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q8_0.gguf \
+ --profile workstation_rtx4090
 
 # For CPU-only
 python scripts/generate_modelfile.py \
-  --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
-  --profile cpu_only
+ --gguf models/gguf/SmolVLM2-2.2B-Instruct-Q4_K_M.gguf \
+ --profile cpu_only
 ```
 
 ---

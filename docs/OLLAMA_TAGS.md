@@ -74,11 +74,11 @@ ollama list
 
 Output:
 ```
-NAME                ID              SIZE      MODIFIED
-smolvlm2:q4_k_m     abc123          1.1 GB    5 minutes ago
-smolvlm2:q5_k_m     def456          1.3 GB    4 minutes ago
-smolvlm2:q8_0       ghi789          1.8 GB    3 minutes ago
-smolvlm2:latest     abc123          1.1 GB    2 minutes ago
+NAME    ID    SIZE  MODIFIED
+smolvlm2:q4_k_m  abc123   1.1 GB 5 minutes ago
+smolvlm2:q5_k_m  def456   1.3 GB 4 minutes ago
+smolvlm2:q8_0  ghi789   1.8 GB 3 minutes ago
+smolvlm2:latest  abc123   1.1 GB 2 minutes ago
 ```
 
 ### Remove Specific Tag
@@ -147,10 +147,10 @@ Create all versions at once:
 set QUANTS q4_k_m q5_k_m q8_0 f16
 
 for quant in $QUANTS
-    set quant_upper (echo $quant | tr '[:lower:]' '[:upper:]')
-    echo "Creating smolvlm2:$quant from SmolVLM2-$quant_upper.modelfile"
+ set quant_upper (echo $quant | tr '[:lower:]' '[:upper:]')
+ echo "Creating smolvlm2:$quant from SmolVLM2-$quant_upper.modelfile"
 
-    ollama create smolvlm2:$quant -f modelfiles/SmolVLM2-$quant_upper.modelfile
+ ollama create smolvlm2:$quant -f modelfiles/SmolVLM2-$quant_upper.modelfile
 end
 
 # Set Q4_K_M as default
@@ -180,24 +180,24 @@ chmod +x deploy_all.fish
 ### For Hardware
 
 ```
-smolvlm2:laptop   # Optimized for laptop (Q4_K_M)
-smolvlm2:desktop  # Optimized for desktop (Q5_K_M)
-smolvlm2:server   # Optimized for server (Q8_0)
+smolvlm2:laptop # Optimized for laptop (Q4_K_M)
+smolvlm2:desktop # Optimized for desktop (Q5_K_M)
+smolvlm2:server # Optimized for server (Q8_0)
 ```
 
 ### For Use Case
 
 ```
-smolvlm2:draft    # Quick drafts (Q4_K_M)
-smolvlm2:final    # Final output (Q8_0)
-smolvlm2:test     # Testing version
+smolvlm2:draft # Quick drafts (Q4_K_M)
+smolvlm2:final # Final output (Q8_0)
+smolvlm2:test  # Testing version
 ```
 
 ### For Experiments
 
 ```
-smolvlm2:exp-1    # Experiment 1
-smolvlm2:exp-2    # Experiment 2
+smolvlm2:exp-1 # Experiment 1
+smolvlm2:exp-2 # Experiment 2
 smolvlm2:baseline # Baseline for comparison
 ```
 
